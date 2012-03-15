@@ -1,4 +1,22 @@
 <?php
+if (!function_exists("fibonacci")) {
+    print("Function fibonacci does not exist... Maybe it's not loaded into PHP ? \n");
+    exit(1);
+}
+print("Calculating fibonacci for 5 ...\n");
+print("And its: " . fibonacci(5));
+exit(0);
+
+
+
+
+
+
+
+
+
+
+
 $br = (php_sapi_name() == "cli")? "":"<br>";
 
 if(!extension_loaded('util')) {

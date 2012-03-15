@@ -42,8 +42,7 @@ PHP_RINIT_FUNCTION(util);
 PHP_RSHUTDOWN_FUNCTION(util);
 PHP_MINFO_FUNCTION(util);
 
-PHP_FUNCTION(confirm_util_compiled);	/* For testing, remove later. */
-PHP_FUNCTION(util_hello_world);
+PHP_FUNCTION(fibonacci);
 /* 
   	Declare any global variables you may need between the BEGIN
 	and END macros here:     
