@@ -43,6 +43,7 @@ PHP_RSHUTDOWN_FUNCTION(util);
 PHP_MINFO_FUNCTION(util);
 
 PHP_FUNCTION(fibonacci);
+PHP_FUNCTION(hexencode);
 /* 
   	Declare any global variables you may need between the BEGIN
 	and END macros here:     

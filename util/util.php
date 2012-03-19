@@ -4,7 +4,11 @@ if (!function_exists("fibonacci")) {
     exit(1);
 }
 print("Calculating fibonacci for 5 ...\n");
-print("And its: " . fibonacci(5));
+print("And its: " . fibonacci(5) . "\n");
+
+var_dump(hexencode("Hello"));
+
+
 exit(0);
 
 

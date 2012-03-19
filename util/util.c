@@ -40,6 +40,7 @@ static int le_util;
  */
 zend_function_entry util_functions[] = { /* {{{ */
 	PHP_FE(fibonacci,	NULL)
+	PHP_FE(hexencode,	NULL)
 	PHP_FE_END	/* Must be the last line in util_functions[] */
 };
 /* }}} */
@@ -152,6 +153,19 @@ int fib_aux(int n, int next, int result) {
 	return fib_aux(n - 1, next + result, next); 
 }
 
+const char *hexchars = "0123456789ABCDEF";
+char *hexencode(char *in, int in_length) {
+	char * result;
+	int i;
+	result = (char *) emalloc(2 * in_length + 1);
+	for(i = 0; i < in_length; i++) {
+		result[2*i] = hexchars[(in[i] & 0x000000f0) >> 4];
+		result[2*i + 1] = hexchars[in[i] & 0x0000000f];
+	}
+	result[2*in_length] = '\0';
+	return result;
+}
+
 PHP_FUNCTION(fibonacci) {
 	long n;
 	long retval;
@@ -162,6 +176,17 @@ PHP_FUNCTION(fibonacci) {
 		zend_error(E_WARNING, "Argument must be a positive integer"); RETURN_FALSE;
 	}
 	retval = fib_aux(n, 1, 0); RETURN_LONG(retval);
+}
+
+PHP_FUNCTION(hexencode) {
+	char *in;
+	char *out;
+	int in_length;
+	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &in, &in_length) == FAILURE) {
+		return;
+	}
+	out = hexencode(in, in_length);
+	RETURN_STRINGL(out, in_length * 2, 0);
 }
 
 /*
