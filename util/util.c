@@ -41,6 +41,7 @@ static int le_util;
 zend_function_entry util_functions[] = { /* {{{ */
 	PHP_FE(fibonacci,	NULL)
 	PHP_FE(hexencode,	NULL)
+	PHP_FE(hexdecode,	NULL)
 	PHP_FE_END	/* Must be the last line in util_functions[] */
 };
 /* }}} */
@@ -166,6 +167,21 @@ char *hexencode(char *in, int in_length) {
 	return result;
 }
 
+static __inline__ int char2hex(char a) {
+	return (a >= 'A' && a <= 'F')? ( a - 'A' + 10 ):( a - '0'); 
+}
+
+char *hexdecode(char *in, int in_length) {
+	char *result; 
+	int i;
+	result = (char *) emalloc(in_length/2 + 1); 
+	for(i = 0; i < in_length/2; i++) {
+		result[i] = char2hex(in[2 * i]) * 16 + char2hex(in[2 * i + 1]); 
+	}
+	result[in_length/2] = '\0';
+	return result;
+}
+
 PHP_FUNCTION(fibonacci) {
 	long n;
 	long retval;
@@ -187,6 +203,17 @@ PHP_FUNCTION(hexencode) {
 	}
 	out = hexencode(in, in_length);
 	RETURN_STRINGL(out, in_length * 2, 0);
+}
+
+PHP_FUNCTION(hexdecode) {
+	char *in;
+	char *out;
+	int in_length;
+	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &in, &in_length) == FAILURE) {
+		return;
+	}
+	out = hexdecode(in, in_length);
+	RETURN_STRINGL(out, in_length/2 + 1, 0);
 }
 
 /*

@@ -6,7 +6,10 @@ if (!function_exists("fibonacci")) {
 print("Calculating fibonacci for 5 ...\n");
 print("And its: " . fibonacci(5) . "\n");
 
-var_dump(hexencode("Hello"));
+
+$f = hexencode("Hello");
+var_dump($f . "\n");
+var_dump(hexdecode($f));
 
 
 exit(0);
